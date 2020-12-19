@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/chapter_layout_title"
+        android:text="genesis"
+        android:shadowColor="#ffffff"
+        android:shadowDy="5"
+        android:shadowRadius="20"
+        android:outlineAmbientShadowColor="#ffffff"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/bookHeaderText"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_height"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <!--androidx.core.widget.NestedScrollView
+        android:id="@+id/chapter_layout_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/line_height"
+        app:layout_constraintTop_toBottomOf="@id/chapter_layout_title"
+        -->
+        <ListView
+            android:id="@+id/chapter_layout_listview"
+            android:layout_marginTop="@dimen/line_height"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintTop_toBottomOf="@id/chapter_layout_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    <!--/androidx.core.widget.NestedScrollView-->
+</androidx.constraintlayout.widget.ConstraintLayout>

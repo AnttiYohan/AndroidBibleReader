@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:id="@+id/verse_row_number"
+        android:textAppearance="@style/verseNumberText"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        app:layout_constraintTop_toTopOf="@id/verse_row_content"
+        app:layout_constraintHeight_max="@dimen/line_height"
+        app:layout_constraintLeft_toLeftOf="@id/verse_row_content"
+        android:background="@drawable/verse_number_bg"
+        android:layout_width="@dimen/verse_number_side"
+        android:layout_height="@dimen/verse_number_side"
+        android:layout_marginLeft="@dimen/verse_pad"
+        android:layout_marginTop="@dimen/verse_pad"
+        android:text="118"
+        android:outlineAmbientShadowColor="@color/black"
+        android:outlineSpotShadowColor="@color/black"
+        android:shadowRadius="3"
+        android:shadowColor="#000"
+        android:shadowDx="0"
+        android:shadowDy="1"
+        />
+    <TextView
+        android:id="@+id/verse_row_content"
+        android:text="npoevervvre!"
+        android:textAppearance="@style/verseContentText"
+        android:textStyle="normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/line_height"
+        android:paddingVertical="16dp"
+        android:paddingLeft="48dp"
+        android:textFontWeight="300"
+        android:lineHeight="@dimen/line_height"
+        >
+    </TextView>
+
+</RelativeLayout>
