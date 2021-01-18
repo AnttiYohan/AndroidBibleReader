@@ -2,6 +2,7 @@ package com.biblereader;
 
 import android.app.Activity;
 import android.database.DataSetObserver;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,13 +52,13 @@ public class ChapterListAdapter implements ListAdapter {
     @Override
     public long getItemId(int position)
     {
-        return position;
+        return mVerseList.get(position).number;
     }
 
     @Override
     public boolean hasStableIds()
     {
-        return false;
+        return true;
     }
 
     /**

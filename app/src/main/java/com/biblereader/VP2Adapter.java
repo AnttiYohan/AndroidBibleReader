@@ -1,5 +1,6 @@
-package com.anttij.biblereader20;
+package com.biblereader;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,17 +19,26 @@ public class VP2Adapter extends RecyclerView.Adapter<VP2Adapter.ViewHolderAdapte
     // - My ViewPager2 Adapter class' properties
     // --------------------------------------------------------
 
-    private Context           mContext;
-    private ArrayList<String> mStringList;
+    private Context mContext;
+    //private ArrayList<String> mStringList;
+    private Book    mBook;
+    private int     mChapterAmount;
 
     // ---------------------------------------------------------
     // - Constructor
     // ---------------------------------------------------------
 
-    public VP2Adapter(Context context, ArrayList<String> stringList)
+    public VP2Adapter()
     {
-        mContext    = context;
-        mStringList = stringList;
+        mContext = null;
+        mBook    = null;
+        mChapterAmount = -1;
+    }
+
+    public VP2Adapter(Context context, Book book)
+    {
+        mContext = context;
+        mBook    = book;
     }
 
     @NonNull
@@ -43,14 +53,9 @@ public class VP2Adapter extends RecyclerView.Adapter<VP2Adapter.ViewHolderAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolderAdapter holder, int position)
     {
-        holder.tvTitle.setText( mStringList.get( position ) );
+        holder.setChapter( mBook.getChapter( position ) );
     }
 
-    @Override
-    public int getItemViewType(int position)
-    {
-        mStringList.get( position );
-    }
 
     /**
      * Returns the size of the mViewArrayList
@@ -60,7 +65,7 @@ public class VP2Adapter extends RecyclerView.Adapter<VP2Adapter.ViewHolderAdapte
     @Override
     public int getItemCount()
     {
-        return mStringList.size();
+        return mBook.getChapterCount();
     }
 
     // ---------------------------------------------------------------------------------------
@@ -70,18 +75,24 @@ public class VP2Adapter extends RecyclerView.Adapter<VP2Adapter.ViewHolderAdapte
 
     public class ViewHolderAdapter extends RecyclerView.ViewHolder
     {
-        // -------------------------------------
-        // - The View Title (TextView) +
-        // - Inner class constructor
-        // -------------------------------------
 
-        TextView tvTitle;
+        private ListView mListView;
 
         public ViewHolderAdapter(@NonNull View itemView)
         {
             super(itemView);
+            mListView = itemView.findViewById(R.id.chapter_in_pager);
+        }
 
-            tvTitle = itemView.findViewById(R.id.viewpager_title);
+        public void setChapter(Chapter chapter)
+        {
+            ChapterListAdapter listViewAdapter = new ChapterListAdapter((Activity) mContext, chapter);
+            mListView.setAdapter(listViewAdapter);
+        }
+
+        public ListView getListView()
+        {
+            return mListView;
         }
     }
 }

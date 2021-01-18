@@ -1,11 +1,14 @@
 package com.biblereader;
 
+import android.media.Image;
+
 import java.util.ArrayList;
+
 
 public class Chapter
 {
-    public ArrayList<Verse> verseList;
-    public int              number;
+    protected ArrayList<Verse> verseList;
+    protected int              number;
 
     public Chapter()
     {
@@ -39,3 +42,4 @@ public class Chapter
         return number;
     }
 }
+

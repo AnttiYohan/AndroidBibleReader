@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.util.Log;
 
+import com.biblereader.Book;
+import com.biblereader.BookModel;
 import com.biblereader.Chapter;
 import com.biblereader.Verse;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
@@ -16,6 +18,9 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * The Bible SQLite database reader entity
+ */
 public class DatabaseReader extends SQLiteAssetHelper
 {
     protected static final String LOGTAG = "DatabaseReader";
@@ -53,7 +58,45 @@ public class DatabaseReader extends SQLiteAssetHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
+        Log.d(LOGTAG, "Updating database from " + oldVersion + " to " + newVersion);
 
+
+    }
+    /**
+     * Queries book entity's _id, name and returns everything
+     * in an ArrayList
+     *
+     * @return
+     */
+    public ArrayList<BookModel> getBooks()
+    {
+        ArrayList<BookModel> result = new ArrayList<>();
+
+        Cursor cursor = mDatabase.rawQuery
+        (
+                "SELECT id, name FROM book",
+                null
+        );
+
+        int idIndex    = cursor.getColumnIndex( "id" );
+        int nameIndex  = cursor.getColumnIndex( "name" );
+
+        while( cursor.moveToNext() )
+        {
+            result.add(
+
+                new BookModel
+                (
+                      cursor.getInt(idIndex),
+                      cursor.getString(nameIndex)
+                )
+
+            );
+        }
+
+        cursor.close();
+
+        return result;
     }
 
     /**
@@ -62,7 +105,7 @@ public class DatabaseReader extends SQLiteAssetHelper
      *
      * @return
      */
-    public ArrayList<String> getBooks()
+    public ArrayList<String> getBookNames()
     {
         ArrayList<String> result = new ArrayList<>();
 
@@ -80,6 +123,29 @@ public class DatabaseReader extends SQLiteAssetHelper
             cursor.moveToNext();
         }
 
+        cursor.close();
+
+        return result;
+    }
+
+    /**
+     * Returns the book name referenced by its id
+     * Or '0' if not found
+     *
+     * @param id
+     * @return
+     */
+    public String getBookName(int id)
+    {
+        String result = "";
+
+        Cursor cursor = mDatabase.rawQuery
+                (
+                        "SELECT name FROM book WHERE id = ?", new String[]{String.valueOf(id)}
+                );
+
+        cursor.moveToFirst();
+        result = cursor.getString(0);
         cursor.close();
 
         return result;
@@ -108,8 +174,23 @@ public class DatabaseReader extends SQLiteAssetHelper
         return result;
     }
 
+    public Book getBook(int bookId)
+    {
+        Book book = new Book();
+
+        // ----------------------------
+        // - Fetch the book properties
+        // ----------------------------
+
+        book.setTitle(getBookName(bookId));
+        book.setChapterList(getBookById(bookId));
+
+        return book;
+    }
+
     /**
-     * Get a book by id as an ArrayList of chapters
+     * Get a book as an ArrayList of chapters
+     * Referenced by id
      *
      * @param  bookId
      * @return ArrayList of Chapter objects
