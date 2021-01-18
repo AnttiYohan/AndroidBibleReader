@@ -9,42 +9,47 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class FPAdapter extends FragmentStateAdapter
+public class PagerBookAdapter extends FragmentStateAdapter
 {
     // ---------------------------------------------
     // -
     // ---------------------------------------------
 
-    private ArrayList<Fragment> mFragmentList;
-
+    private Book                       mBook;
     // ---------------------------------------------
     // -
     // ---------------------------------------------
 
-    public FPAdapter(@NonNull @NotNull FragmentActivity fragmentActivity) {
+    public PagerBookAdapter(@NonNull @NotNull FragmentActivity fragmentActivity)
+    {
         super(fragmentActivity);
-
+        mBook = null;
     }
 
-    public FPAdapter(@NonNull @NotNull FragmentActivity fragmentActivity, ArrayList<Fragment> fragmentList) {
+    public PagerBookAdapter(@NonNull @NotNull FragmentActivity fragmentActivity, Book book)
+    {
         super(fragmentActivity);
-        mFragmentList = fragmentList;
+        mBook = book;
     }
 
-    public void setFragmentList(ArrayList<Fragment> fragmentList) {
-        this.mFragmentList = fragmentList;
+    public void setBook(Book book)
+    {
+        mBook = book;
     }
 
     @NonNull
     @NotNull
     @Override
-    public Fragment createFragment(int position) {
-        return null;
+    public Fragment createFragment(int position)
+    {
+        return new ChapterFragment( mBook.getChapter( position ) );
     }
 
     @Override
     public int getItemCount()
     {
-        return mFragmentList.size();
+        return mBook.getChapterCount();
     }
+
+
 }
